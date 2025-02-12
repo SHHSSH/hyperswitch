@@ -81,7 +81,7 @@ pub enum RoutableConnectors {
     Fiservemea,
     Fiuu,
     Forte,
-    // Getnet,
+    Getnet,
     Globalpay,
     Globepay,
     Gocardless,
@@ -218,7 +218,7 @@ pub enum Connector {
     Fiservemea,
     Fiuu,
     Forte,
-    // Getnet,
+    Getnet,
     Globalpay,
     Globepay,
     Gocardless,
@@ -367,7 +367,7 @@ impl Connector {
             | Self::Fiservemea
             | Self::Fiuu
             | Self::Forte
-            // | Self::Getnet
+            | Self::Getnet
             | Self::Globalpay
             | Self::Globepay
             | Self::Gocardless
@@ -498,6 +498,7 @@ impl From<RoutableConnectors> for Connector {
             RoutableConnectors::Fiservemea => Self::Fiservemea,
             RoutableConnectors::Fiuu => Self::Fiuu,
             RoutableConnectors::Forte => Self::Forte,
+            RoutableConnectors::Getnet => Self::Getnet,
             RoutableConnectors::Globalpay => Self::Globalpay,
             RoutableConnectors::Globepay => Self::Globepay,
             RoutableConnectors::Gocardless => Self::Gocardless,
