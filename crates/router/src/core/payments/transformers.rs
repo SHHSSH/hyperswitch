@@ -468,6 +468,7 @@ pub async fn construct_payment_router_data_for_capture<'a>(
         browser_info: None,
         metadata: payment_data.payment_intent.metadata.expose_option(),
         integrity_object: None,
+        webhook_url: None,
     };
 
     // TODO: evaluate the fields in router data, if they are required or not
@@ -3275,6 +3276,7 @@ impl<F: Clone> TryFrom<PaymentAdditionalData<'_, F>> for types::PaymentsCaptureD
             browser_info: None,
             metadata: payment_data.payment_intent.metadata.expose_option(),
             integrity_object: None,
+            webhook_url: None,
         })
     }
 }
