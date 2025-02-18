@@ -333,10 +333,10 @@ impl ConnectorIntegration<PSync, PaymentsSyncData, PaymentsResponseData> for Xen
         event_builder: Option<&mut ConnectorEvent>,
         res: Response,
     ) -> CustomResult<PaymentsSyncRouterData, errors::ConnectorError> {
-        let response: xendit::XenditResponse = res
-            .response
-            .parse_struct("xendit XenditResponse")
-            .change_context(errors::ConnectorError::ResponseDeserializationFailed)?;
+        let response: xendit::XenditResponse =
+            res.response
+                .parse_struct("xendit XenditResponse")
+                .change_context(errors::ConnectorError::ResponseDeserializationFailed)?;
 
         event_builder.map(|i| i.set_response_body(&response));
         router_env::logger::info!(connector_response=?response);
