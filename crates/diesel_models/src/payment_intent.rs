@@ -28,7 +28,7 @@ pub struct PaymentIntent {
     pub customer_id: Option<common_utils::id_type::GlobalCustomerId>,
     pub description: Option<common_utils::types::Description>,
     pub return_url: Option<common_utils::types::Url>,
-    pub metadata: Option<pii::SecretSerdeValue>,
+    metadata: Option<pii::SecretSerdeValue>,
     #[serde(with = "common_utils::custom_serde::iso8601")]
     pub created_at: PrimitiveDateTime,
     #[serde(with = "common_utils::custom_serde::iso8601")]
@@ -177,6 +177,8 @@ pub struct PaymentLinkConfigRequestForPayments {
     pub details_layout: Option<common_enums::PaymentLinkDetailsLayout>,
     /// Text for payment link's handle confirm button
     pub payment_button_text: Option<String>,
+    /// Display the status screen after payment completion
+    pub display_status_screen: Option<bool>,
     /// Text for customizing message for card terms
     pub custom_message_for_card_terms: Option<String>,
     /// Custom background colour for payment link's handle confirm button

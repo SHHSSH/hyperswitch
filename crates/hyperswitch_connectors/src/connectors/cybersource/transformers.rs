@@ -1146,6 +1146,13 @@ impl
 //     })
 // }
 
+fn truncate_string(state: &Secret<String>, max_len: usize) -> Secret<String> {
+    let exposed = state.clone().expose();
+    let truncated = exposed.get(..max_len).unwrap_or(&exposed); 
+    Secret::new(truncated.to_string())
+}
+
+
 fn build_bill_to(
     address_details: Option<&hyperswitch_domain_models::address::Address>,
     email: pii::Email,
@@ -1167,11 +1174,15 @@ fn build_bill_to(
                 last_name: addr.last_name.remove_new_line(),
                 address1: addr.line1.remove_new_line(),
                 locality: addr.city.remove_new_line(),
-                administrative_area: addr
+                administrative_area: 
+                    addr
+                    .remove_new_line()
                     .to_state_code_as_optional()
-                    .ok()
-                    .flatten()
-                    .remove_new_line(),
+                    .unwrap_or_else(|_| {
+                        addr.state
+                        .as_ref()
+                            .map(|state| truncate_string(state,20))
+                    }),
                 postal_code: addr.zip.remove_new_line(),
                 country: addr.country,
                 email,
@@ -1491,7 +1502,7 @@ impl
             last_name: Some(last_name),
             address1: paze_data.billing_address.line1,
             locality: paze_data.billing_address.city.map(|city| city.expose()),
-            administrative_area: Some(Secret::from(
+            administrative_area: Some(Secret::from( //
                 //Paze wallet is currently supported in US only
                 common_enums::UsStatesAbbreviation::foreign_try_from(
                     paze_data
@@ -3860,7 +3871,7 @@ impl TryFrom<(&AddressDetails, &PhoneDetails)> for CybersourceRecipientInfo {
             last_name: billing_address.get_last_name()?.to_owned(),
             address1: billing_address.get_line1()?.to_owned(),
             locality: billing_address.get_city()?.to_owned(),
-            administrative_area: billing_address.get_state()?.to_owned(),
+            administrative_area: billing_address.get_state()?.to_owned(), //
             postal_code: billing_address.get_zip()?.to_owned(),
             country: billing_address.get_country()?.to_owned(),
             phone_number: phone_address.number.clone(),
@@ -4133,5 +4144,16 @@ impl RemoveNewLine for Option<Secret<String>> {
 impl RemoveNewLine for Option<String> {
     fn remove_new_line(&self) -> Self {
         self.clone().map(|value| value.replace("\n", " "))
+    }
+}
+
+impl RemoveNewLine for AddressDetails {
+    fn remove_new_line(&self) -> Self {
+        let mut new_addr = self.clone(); 
+        if let Some(state) = &new_addr.state {
+            let cleaned_state = Secret::new(state.clone().expose().replace("\n", ""));
+            new_addr.state = Some(cleaned_state);
+        }
+        new_addr
     }
 }

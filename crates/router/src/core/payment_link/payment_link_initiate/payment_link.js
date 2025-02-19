@@ -442,9 +442,24 @@ function handleSubmit(e) {
         } else {
           showMessage(translations.unexpectedError);
         }
-      } else {
+      } else if (paymentDetails.display_status_screen && paymentDetails.display_status_screen == true) {
         redirectToStatus();
-      }
+      } else {
+        var queryParams = {
+          payment_id: paymentDetails.payment_id,
+          status: paymentDetails.status,
+        };
+        var url = new URL(paymentDetails.return_url);
+        var params = new URLSearchParams(url.search);
+        // Attach query params to return_url
+        for (var key in queryParams) {
+          if (queryParams.hasOwnProperty(key)) {
+            params.set(key, queryParams[key]);
+          }
+        }
+        url.search = params.toString();
+        window.location.href = url.toString();
+    }
     })
     .catch(function (error) {
       console.error("Error confirming payment_intent", error);
