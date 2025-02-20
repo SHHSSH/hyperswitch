@@ -615,7 +615,6 @@ impl webhooks::IncomingWebhook for Xendit {
         _connector_webhook_secrets: &api_models::webhooks::ConnectorWebhookSecrets,
     ) -> CustomResult<Vec<u8>, errors::ConnectorError> {
         let header_value = utils::get_header_key_value("X-CALLBACK-TOKEN", request.headers)?;
-        println!("Header value {:?} ", header_value);
         Ok(header_value.into())
     }
     async fn verify_webhook_source(
