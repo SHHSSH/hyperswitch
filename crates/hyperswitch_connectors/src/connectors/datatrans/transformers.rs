@@ -123,7 +123,7 @@ pub struct SyncResponse {
     pub res_type: TransactionType,
     pub status: TransactionStatus,
     pub detail: SyncDetails,
-    pub card: SyncCardDetails,
+    pub card: Option<SyncCardDetails>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
@@ -781,17 +781,16 @@ impl TryFrom<PaymentsSyncResponseRouterData<DatatransSyncResponse>>
                         connector_transaction_id: None,
                     })
                 } else {
-                    let mandate_reference =
-                        sync_response
-                            .card
-                            .alias
-                            .as_ref()
-                            .map(|alias| MandateReference {
-                                connector_mandate_id: Some(alias.clone()),
-                                payment_method_id: None,
-                                mandate_metadata: None,
-                                connector_mandate_request_reference_id: None,
-                            });
+                    let mandate_reference = sync_response
+                        .card
+                        .as_ref()
+                        .and_then(|card| card.alias.as_ref())
+                        .map(|alias| MandateReference {
+                            connector_mandate_id: Some(alias.clone()),
+                            payment_method_id: None,
+                            mandate_metadata: None,
+                            connector_mandate_request_reference_id: None,
+                        });
                     Ok(PaymentsResponseData::TransactionResponse {
                         resource_id: ResponseId::ConnectorTransactionId(
                             sync_response.transaction_id.to_string(),
