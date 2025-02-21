@@ -3,6 +3,51 @@
   <img src="./docs/imgs/hyperswitch-logo-light.svg#gh-light-mode-only" alt="Hyperswitch-Logo" width="40%" />
 </p>
 
+Yes, you can use crypto with HyperSwitch.  HyperSwitch is designed to be a payment orchestration layer, meaning it connects to various payment processors and allows merchants to choose the best options for their needs, including cryptocurrency payments. Here's how it works, and why it's possible:
+
+**Key Ways HyperSwitch Supports Crypto:**
+
+1.  **Integration with Crypto Payment Processors:** HyperSwitch doesn't *directly* handle crypto transactions itself.  Instead, it integrates with specialized cryptocurrency payment processors.  Think of it like this: you wouldn't expect HyperSwitch to handle *every* type of credit card directly; it connects to Visa, Mastercard, etc., via payment processors.  The same principle applies to crypto.  Common examples of crypto payment processors that HyperSwitch *can* integrate with (or likely will in the future if they haven't already) include:
+    *   **BitPay:** One of the largest and best-known crypto payment processors.
+    *   **Coinbase Commerce:** Coinbase's offering for businesses to accept cryptocurrency.
+    *   **Binance Pay:** Binance's payment solution.
+    *   **BTCPay Server:** An open-source, self-hosted crypto payment processor (very important for decentralization).
+    *   **Checkout.com Crypto:** Checkout.com has added crypto payment processing to its existing suite.
+    *   **Stripe Crypto:**  In recent years Stripe has introduced support for crypto in certain jurisdictions.  HyperSwitch's ability to integrate with Stripe means it can indirectly facilitate crypto through this.
+    *   **NOWPayments:** another crypto processor.
+    *   **TripleA:** An example of a processor focused on the Asian market.
+    * ...and many others.  The key is that HyperSwitch is designed to be *extensible*—to add new connectors as the payment landscape evolves.
+
+2.  **Routing and Optimization:**  Just like with traditional payments, HyperSwitch can intelligently route crypto transactions.  This is a core feature of payment orchestration:
+    *   **Cost Optimization:** Which crypto processor offers the lowest fees for a particular transaction (considering both the processor's fees and potential network fees)? HyperSwitch can help route to the cheapest option.
+    *   **Success Rate Optimization:** If one crypto processor is experiencing downtime or has limitations, HyperSwitch can automatically switch to another. Some processors may have better success rates in certain geographic regions or with specific cryptocurrencies.
+    *   **Compliance:** Different processors may have different compliance requirements (KYC/AML). A merchant might use HyperSwitch to choose a processor based on the level of compliance needed for a particular customer or transaction.
+
+3.  **Unified Reporting and Reconciliation:** Even if a merchant uses multiple crypto payment processors (and traditional payment methods), HyperSwitch provides a single dashboard and reporting system. This simplifies accounting and reconciliation significantly.
+
+4. **Token Support:** The specific cryptocurrencies supported depend on the *underlying payment processors* HyperSwitch is connected to.  If BitPay supports Bitcoin, Litecoin, and Ethereum, and HyperSwitch is connected to BitPay, then the merchant can accept those currencies.
+
+**How a Transaction Might Work (Simplified Example):**
+
+1.  A customer chooses to pay with Bitcoin on a merchant's website that uses HyperSwitch.
+2.  HyperSwitch identifies the customer's location (e.g., for compliance reasons) and the desired cryptocurrency (Bitcoin).
+3.  Based on pre-configured rules (set up by the merchant), HyperSwitch routes the transaction to, say, Coinbase Commerce.
+4.  Coinbase Commerce generates a Bitcoin payment address and QR code.
+5.  The customer sends Bitcoin to that address.
+6.  Coinbase Commerce confirms the payment (handling the blockchain confirmation).
+7.  Coinbase Commerce notifies HyperSwitch that the payment is successful (and potentially converts the crypto to fiat currency if the merchant wants that).
+8.  HyperSwitch updates the merchant's system and provides reporting data.
+
+**Important Considerations:**
+
+*   **Specific Integrations:** While HyperSwitch *can* support crypto, it's crucial to check which specific crypto processors it *currently* has connectors for. This information is usually available in their documentation.
+*   **Merchant Configuration:** The merchant needs to configure their HyperSwitch account to enable crypto payments and set up the rules for routing.
+*   **Volatility:** Merchants need to be aware of the volatility of cryptocurrencies if they choose to hold the crypto rather than immediately converting it to fiat currency. HyperSwitch itself doesn't mitigate this risk; the choice of processor and the merchant's risk management strategy do.
+*   **Regulatory Landscape:** Crypto regulations vary widely by country.  HyperSwitch can help with compliance *by connecting to compliant processors*, but the merchant ultimately remains responsible for ensuring they are operating legally.
+* **Open Source:** HyperSwitch itself is open source. This is relevant because that allows you to inspect its codebase and contribute to it, including adding integrations to a crypto processor of your liking.
+
+In short, HyperSwitch is designed to handle a wide range of payment methods, and cryptocurrency is absolutely within its capabilities through its integration with specialized payment processors. It offers the advantages of flexibility, optimization, and unified management, making crypto payments easier for merchants to implement and manage. Always refer to the latest HyperSwitch documentation for up-to-date specifics.
+
 <h1 align="center">Open-Source Payments Orchestration</h1>
 
 <div align="center" >
